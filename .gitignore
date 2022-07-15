@@ -1,3 +1,7 @@
+.todo
+.prettierrc
+.prettierignore
+
 # Logs
 logs
 *.log
