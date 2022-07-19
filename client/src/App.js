@@ -1,21 +1,14 @@
 import './App.css'
-import { useEffect, useState } from 'react'
-
+import Header from './Components/Header'
+import Footer from './Components/Footer'
 function App() {
-  const [posts, setPosts] = useState([])
-  useEffect(() => {
-    let headersList = {
-      Accept: '*/*',
-    }
-
-    fetch('/posts', {
-      method: 'GET',
-      headers: headersList,
-    }).then((res) => {
-      setPosts(res)
-    })
-  }, [])
-  return <div className="App">{posts} hello</div>
+  return (
+    <div className="App">
+      <Header />
+      hello
+      <Footer />
+    </div>
+  )
 }
 
 export default App
