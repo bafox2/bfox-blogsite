@@ -2,16 +2,12 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
-const session = require('express-session')
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-const bcrypt = require('bcryptjs')
 const mongoose = require('mongoose')
 var helmet = require('helmet')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var createError = require('http-errors')
-var User = require('./models/userModel')
+require('./controllers/passport')
 
 //conection
 const mongoDb = process.env.SECRET_KEY
@@ -19,8 +15,13 @@ mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true })
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'mongo connection error'))
 
+//auth
+require('passport')
+
 //routers
-var indexRouter = require('./routes/indexRouter')
+const commentsRouter = require('./routes/commentsRouter')
+const usersRouter = require('./routes/usersRouter')
+const postsRouter = require('./routes/postsRouter')
 
 var app = express()
 
@@ -35,42 +36,17 @@ app.use(cookieParser())
 app.use(helmet())
 app.use(express.static(path.join(__dirname, 'public')))
 
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    User.findOne({ username: username }, (err, user) => {
-      if (err) return done(err)
-      if (!user) return done(null, false, { message: 'Incorrect username' })
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (err) return done(err)
-        // Passwords match, log user in!
-        if (res) return done(null, user)
-        // Passwords do not match!
-        else return done(null, false, { message: 'Incorrect password' })
-      })
-    })
-  })
-)
+app.use('/comments', commentsRouter)
+app.use('/users', usersRouter)
+app.use('/posts', postsRouter)
 
-//serializes the user then stores it in the session, then deserializes the user
-
-passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
-  User.findById(id, (err, user) => done(err, user))
-)
-
-// Secret value should be a process env value
-app.use(session({ secret: 'authapp', resave: false, saveUninitialized: true }))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(express.urlencoded({ extended: false }))
-
-//sets the user object from anywhere in app
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user
-  next()
+app.get('/ping', function (req, res) {
+  return res.send('pong')
 })
 
-app.use('/', indexRouter)
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/public', 'index.html'))
+})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
