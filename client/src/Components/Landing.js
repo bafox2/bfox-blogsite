@@ -1,33 +1,26 @@
 import { useQuery } from 'react-query'
 import Post from './Post'
 
-const fetchPosts = async () => {
-  const response = await fetch('localhost:3000/posts', {
-    method: 'GET',
+//write a function to fetch posts
+async function fetchPosts() {
+  return await fetch('/posts').then((res) => {
+    console.log(res)
+    res.json()
   })
-  const json = await response.json()
-  return json
 }
 
-const componentDidMount = async () => {
-  await fetch('/users')
-    .then((res) => {
-      console.log(res)
-      return res.json()
-    })
-    .then((users) => {
-      console.log(users)
-      this.setState({ users })
-    })
-}
+//i don't know how to make fetchPosts trigger in the component
 const Landing = () => {
-  const { isLoading, error, data } = useQuery('posts', fetchPosts)
+  const { data, status } = useQuery('posts', fetchPosts())
+  console.log(data)
+  console.log(status)
   return (
-    <div className="landing">
-      {componentDidMount()}
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Error fetching posts</div>}
-      {data && data.map((post) => <Post key={post.id} post={post} />)}
+    <div>
+      <h1>Landing</h1>
+      {data &&
+        data.map((post) => {
+          return <Post post={post} />
+        })}
     </div>
   )
 }
