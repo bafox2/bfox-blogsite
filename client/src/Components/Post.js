@@ -2,10 +2,11 @@
 // Language: javascript
 // Path: client/src/Components/Post.js
 
-const Post = (props) => {
+const Post = ({ post }) => {
   return (
-    <div>
-      <h2>{props}</h2>
+    <div className="post">
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
     </div>
   )
 }
