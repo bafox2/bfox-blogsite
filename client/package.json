@@ -41,6 +41,7 @@
   "proxy": "http://localhost:3000/",
   "devDependencies": {
     "@types/react-query": "^1.2.9",
+    "axios": "^0.27.2",
     "react-query": "^4.0.0"
   }
 }

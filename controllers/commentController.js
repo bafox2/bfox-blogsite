@@ -50,3 +50,33 @@ exports.comment_get = function (req, res) {
     return res.json(comment)
   })
 }
+
+exports.comment_edit = [
+  (req, res, next) => {
+    jwt.verify(req.token, process.env.PASSPORT_KEY, (err, authData) => {
+      if (err) res.sendStatus(400).json(err)
+      req.authData = authData
+      next()
+    })
+  },
+  body('comment', 'Comment is required').trim().isLength({ min: 2 }).escape(),
+  body('user', 'Username is required').trim().isLength({ min: 2 }).escape(),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.json({ errors: errors.array() })
+    }
+    Comment.findByIdAndUpdate(req.params.id, {
+      comment: req.body.comment,
+      user: req.body.user,
+      post: req.params.post_id || req.query.post_id,
+    })
+      .populate('user')
+      .exec((err, comment) => {
+        if (err) {
+          return res.json(err)
+        }
+        return res.json(comment)
+      })
+  },
+]

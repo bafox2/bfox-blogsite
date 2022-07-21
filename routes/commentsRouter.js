@@ -8,6 +8,8 @@ router.get('/', commentController.comment_list)
 
 router.post('/', commentController.comment_create)
 
+router.put('/:id/edit', commentController.comment_edit)
+
 router.delete('/:id/delete', verifyToken, commentController.comment_delete)
 
 router.get('/:id', commentController.comment_get)
