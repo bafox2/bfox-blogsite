@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import PostPreview from './PostPreview'
 
 const Dashboard = (props) => {
   const [showPublished, setShowPublished] = useState(false)
@@ -38,8 +39,6 @@ const Dashboard = (props) => {
       ? setShowUnpublished(true)
       : setShowUnpublished(false)
   }, [props.posts])
-  props.posts.map((post) => console.log(post.user._id, props.user.id))
-  console.log(props.user)
 
   return (
     <div className="dashboard">
@@ -51,11 +50,12 @@ const Dashboard = (props) => {
             (post) => post.user._id === props.user.id && post.published === true
           )
           .map((post) => (
-            <div key={post._id}>
-              <h4>{post.title}</h4>
-              <p>{post.body}</p>
-              <button onClick={() => deletePost(post._id)}>Delete</button>
-            </div>
+            <PostPreview
+              key={post._id}
+              post={post}
+              setPosts={props.setPosts}
+              publishAccess={true}
+            />
           ))}
       </div>
 
@@ -67,11 +67,12 @@ const Dashboard = (props) => {
               post.user._id === props.user.id && post.published === false
           )
           .map((post) => (
-            <div key={post._id}>
-              <h4>{post.title}</h4>
-              <p>{post.body}</p>
-              <button onClick={() => deletePost(post._id)}>Delete</button>
-            </div>
+            <PostPreview
+              key={post._id}
+              post={post}
+              setPosts={props.setPosts}
+              publishAccess={true}
+            />
           ))}
       </div>
     </div>

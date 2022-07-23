@@ -7,9 +7,9 @@ router.get('/', postController.post_list)
 
 router.post('/create', verifyToken, postController.post_create)
 
-router.post('/:id/publish', verifyToken, postController.post_publish)
+router.put('/:id/publish', verifyToken, postController.post_publish)
 
-router.delete('/:id/unpublish', verifyToken, postController.post_unpublish)
+router.put('/:id/unpublish', verifyToken, postController.post_unpublish)
 
 router.delete('/:id/delete', verifyToken, postController.post_delete)
 

@@ -146,8 +146,9 @@ exports.post_unpublish = (req, res, next) => {
 
 exports.post_get = (req, res, next) => {
   Post.findById(req.params.id)
-    .populate('user')
+    .populate('user likes comments')
     .exec((err, post) => {
+      console.log(post, 'post from get')
       if (err) return res.json(err)
       return res.json(post)
     })
@@ -159,6 +160,7 @@ exports.post_like = (req, res, next) => {
     { $push: { likes: req.body.user_id } },
     { new: true },
     (err, post) => {
+      console.log(post.likes, 'post from like')
       if (err) return res.json(err)
       return res.json(post.likes)
     }
@@ -171,6 +173,7 @@ exports.post_unlike = (req, res, next) => {
     { $pull: { likes: req.body.user_id } },
     { new: true },
     (err, post) => {
+      console.log(post.likes, 'post from unlike')
       if (err) return res.json(err)
       return res.json(post.likes)
     }
@@ -180,6 +183,7 @@ exports.post_unlike = (req, res, next) => {
 exports.post_likes = (req, res, next) => {
   Post.findById(req.params.id).exec((err, post) => {
     if (err) return res.json(err)
+    console.log(post.likes, 'post from likes')
     return res.json(post.likes)
   })
 }

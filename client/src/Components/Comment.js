@@ -25,11 +25,18 @@ const Comment = (props) => {
   }
 
   const editComment = (e) => {
+    //there is a disconnect on where the url sends
+    console.log(props.comment._id)
     e.preventDefault()
     axios
       .put(
         `/comments/${props.comment._id}/edit`,
-        { username: props.user.username, content: newComment },
+        {
+          user: props.user.username,
+          comment: newComment,
+          post: props.comment.post,
+          comment_id: props.comment._id,
+        },
         {
           headers: {
             Authorization: `Bearer ${
@@ -39,11 +46,13 @@ const Comment = (props) => {
         }
       )
       .then((res) => {
+        console.log(res, 'res')
         props.setComments(
-          props.comments.map((comment) => {
+          props.comments.map((comment) =>
             comment._id !== props.comment._id ? comment : res.data
-          })
+          )
         )
+        console.log(res.data, 'res.data')
         props.setCommentEdit(false)
         setEditing(false)
       })
@@ -51,7 +60,6 @@ const Comment = (props) => {
         console.error(err)
       })
   }
-
   const handleEdit = () => {
     props.setCommentEdit(true)
     setEditing(true)
@@ -59,7 +67,7 @@ const Comment = (props) => {
 
   return (
     <div className="comment">
-      <h1>{props.comment.username}</h1>
+      <h3 className="commentUser">{props.comment.user}</h3>
       {editing ? (
         <form onSubmit={editComment}>
           <input
@@ -70,10 +78,19 @@ const Comment = (props) => {
           <button type="submit">Edit</button>
         </form>
       ) : (
-        <p>{props.comment.content}</p>
+        <p>{props.comment.comment}</p>
       )}
-      <button onClick={handleEdit}>Edit</button>
       <button onClick={deleteComment}>Delete</button>
+      <button
+        hidden={
+          props.user && props.user.username === props.comment.user
+            ? false
+            : true
+        }
+        onClick={handleEdit}
+      >
+        Edit
+      </button>
     </div>
   )
 }

@@ -30,7 +30,17 @@ function App() {
       <div hidden={loading ? true : false}>
         <Header user={user} setUser={setUser} />
         <Routes>
-          <Route path="/" element={<Landing user={user} posts={posts} />} />
+          <Route
+            path="/"
+            element={
+              <Landing
+                user={user}
+                key={posts._id}
+                posts={posts}
+                setPosts={setPosts}
+              />
+            }
+          />
           <Route path="/signup" element={<SignupForm />} />
           <Route path="/login" element={<LoginForm setUser={setUser} />} />
           <Route
@@ -41,12 +51,21 @@ function App() {
             <Route
               path={`/posts/${post._id}`}
               key={post._id}
-              element={<Post post={post} setPosts={setPosts} user={user} />}
+              element={
+                <Post
+                  key={post._id}
+                  post={post}
+                  setPosts={setPosts}
+                  user={user}
+                />
+              }
             />
           ))}
           <Route
             path="/dashboard"
-            element={<Dashboard user={user} posts={posts} />}
+            element={
+              <Dashboard user={user} posts={posts} setPosts={setPosts} />
+            }
           />
         </Routes>
         <Footer />

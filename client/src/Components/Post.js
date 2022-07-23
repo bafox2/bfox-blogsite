@@ -1,10 +1,37 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Comment from './Comment'
+import CommentForm from './CommentForm'
+import PostForm from './PostForm'
 
 const Post = (props) => {
   const [comments, setComments] = useState([])
   const [likes, setLikes] = useState([])
   const [liked, setLiked] = useState()
+  const [commentEdit, setCommentEdit] = useState(false)
+  const [editing, setEditing] = useState(false)
+
+  useEffect(() => {
+    axios.get(`/posts/${props.post._id}/likes`).then((res) => {
+      setLikes(res.data)
+      if (res.data.some((id) => id === props.user?._id)) setLiked(true)
+    })
+  }, [props.likes, props._id, props.user])
+
+  useEffect(() => {
+    axios
+      .get(`/comments/${props.post._id}/`)
+      .then((res) => {
+        setComments(res.data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [props.post._id])
+
+  const handleEdit = () => {
+    setEditing(true)
+  }
 
   const handleLike = function () {
     if (liked) {
@@ -50,21 +77,20 @@ const Post = (props) => {
     }
   }
 
-  useEffect(() => {
-    axios.get(`/posts/${props.post._id}/likes`).then((res) => {
-      setLikes(res.data)
-      if (res.data.some((id) => id === props.user?._id)) setLiked(true)
-    })
-  }, [props.likes, props._id, props.user])
-
   return (
     <div className="post">
       <h1>{props.post.title}</h1>
+      <p>By: {props.post.user.username}</p>
       <p>{props.post.content}</p>
-      <p>{props.post.user.username}</p>
-      <p>{props.post.likes}</p>
+      <p>Likes: {props.post.likes.length}</p>
       <p>{props.post.createdAt}</p>
       <p>{props.post._id}</p>
+      <button
+        onClick={handleEdit}
+        hidden={props.user?.id === props.post.user._id ? false : true}
+      >
+        Edit
+      </button>
 
       <button
         className="like"
@@ -73,6 +99,38 @@ const Post = (props) => {
       >
         {liked ? 'Unlike' : 'Like'}
       </button>
+      <div className="comments">
+        Comments:
+        {comments.map((comment) => (
+          <Comment
+            key={comment._id}
+            comment={comment}
+            user={props.user}
+            setComments={setComments}
+            setCommentEdit={setCommentEdit}
+            comments={comments}
+          />
+        ))}
+        <CommentForm
+          post={props.post}
+          setComments={setComments}
+          comments={comments}
+        />
+      </div>
+      {editing ? (
+        <PostForm
+          title={props.post.title}
+          post={props.post}
+          content={props.post.content}
+          user={props.user}
+          setEditing={setEditing}
+          setPosts={props.setPosts}
+          id={props.post._id}
+          editing={editing}
+          published={props.post.published}
+          comments={comments}
+        />
+      ) : null}
     </div>
   )
 }

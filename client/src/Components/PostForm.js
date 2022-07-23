@@ -24,22 +24,22 @@ const PostForm = (props) => {
         .post('/posts/create', formData, headers)
         .then((res) => {
           props.setPosts((prevState) => [...prevState, res.data])
-          props.history.push(`/posts/${res.data.e_id}`)
+          props.history.push(`/posts/${res.data.id}`)
         })
         .catch((err) => {
           console.log(err)
         })
     } else {
-      console.log('editing')
+      console.log('props.post', props.post._id)
       axios
-        .put(`/posts/${props.post.e_id}`, formData, headers)
+        .put(`/posts/${props.post._id}/edit`, formData, headers)
         .then((res) => {
           props.setPosts((prevState) =>
             prevState.map((post) =>
-              post.e_id === res.data.e_id ? res.data : post
+              post._id === res.data._id ? res.data : post
             )
           )
-          props.history.push(`/posts/${res.data.e_id}`)
+          // props.history.push(`/posts/${res.data._id}`)
         })
         .catch((err) => {
           console.log(err)
