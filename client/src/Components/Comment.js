@@ -80,7 +80,16 @@ const Comment = (props) => {
       ) : (
         <p>{props.comment.comment}</p>
       )}
-      <button onClick={deleteComment}>Delete</button>
+      <button
+        hidden={
+          props.user && props.user.username === props.comment.user
+            ? false
+            : true
+        }
+        onClick={deleteComment}
+      >
+        Delete
+      </button>
       <button
         hidden={
           props.user && props.user.username === props.comment.user

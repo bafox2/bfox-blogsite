@@ -21,7 +21,7 @@ function Header(props) {
         <Link hidden={props.user ? false : true} to="/dashboard">
           Dashboard
         </Link>
-        <Link to="/" onClick={logout} hidden={props.user ? true : false}>
+        <Link to="/" onClick={logout} hidden={props.user ? false : true}>
           Logout
         </Link>
       </nav>

@@ -1,11 +1,12 @@
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 const LoginForm = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -14,6 +15,7 @@ const LoginForm = (props) => {
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.data))
         props.setUser(res.data.user)
+        navigate('/')
       })
       .catch((err) => {
         console.log(err)
