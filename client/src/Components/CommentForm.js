@@ -12,7 +12,7 @@ const CommentForm = (props) => {
       .post(
         `/comments/${props.post._id}/`,
         {
-          user: username,
+          user: JSON.parse(localStorage.getItem('user')).user.username,
           comment: comment,
         },
         {
@@ -38,21 +38,11 @@ const CommentForm = (props) => {
 
   return (
     <form onSubmit={submitHandler}>
-      <div className="form-group">
-        <label htmlFor="user" hidden={props.user ? true : false}>
-          Username <span className="text-danger">*</span>
-        </label>
-        <input
-          type={props.user ? 'hidden' : 'text'}
-          className="form-control"
-          name="user"
-          defaultValue={props.user ? props.user.username : ''}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
+      <label htmlFor="user" hidden={props.user ? true : false}>
+        Posting as: {JSON.parse(localStorage.getItem('user')).user.username}
+      </label>
 
-      <div className="form-group">
+      <div className="textarea">
         <textarea
           name="comment"
           className="form-control"
@@ -63,7 +53,7 @@ const CommentForm = (props) => {
         ></textarea>
       </div>
 
-      <button disabled={comment && username ? false : true}>Comment</button>
+      <button disabled={comment ? false : true}>Comment</button>
     </form>
   )
 }

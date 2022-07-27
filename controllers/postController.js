@@ -16,6 +16,7 @@ exports.post_create = [
   (req, res, next) => {
     jwt.verify(req.token, process.env.PASSPORT_KEY, (err, authData) => {
       if (err) res.sendStatus(400).json(err)
+      console.log(req.authData)
       req.authData = authData
       next()
     })
@@ -24,6 +25,7 @@ exports.post_create = [
   body('content', 'Content is required').trim().isLength({ min: 2 }).escape(),
   body('imgUrl', 'img is required').trim().isLength({ min: 2 }).escape(),
   (req, res, next) => {
+    console.log('in there')
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       console.log(errors.array())

@@ -1,0 +1,47 @@
+@import '../abstracts/variables.scss';
+.signup-main {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h1 {
+    border: 1px solid $white;
+    border-radius: 30px;
+    padding: 5px 10px;
+    background-color: $primary-light;
+    position: relative;
+    top: 10%;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    padding: 30px;
+    margin-bottom: 10px;
+    border: 1px solid $primary-light;
+    border-radius: 1px 50px;
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      width: 150px;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid $primary-light;
+      border-radius: 5px;
+      background-color: $secondary-dark;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+}

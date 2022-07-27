@@ -3,6 +3,7 @@ import axios from 'axios'
 import Comment from './Comment'
 import CommentForm from './CommentForm'
 import PostForm from './PostForm'
+import { Link } from 'react-router-dom'
 
 const Post = (props) => {
   const [comments, setComments] = useState([])
@@ -78,19 +79,21 @@ const Post = (props) => {
   }
 
   return (
-    <div className="post">
-      <h1>{props.post.title}</h1>
-      <p>By: {props.post.user.username}</p>
+    <main className="post">
+      <h1 className="title">{props.post.title}</h1>
+      <h2 className="author">By: {props.post.user.username}</h2>
       <p>{props.post.content}</p>
       <p>Likes: {props.post.likes.length}</p>
       <p>{props.post.createdAt}</p>
       <p>{props.post._id}</p>
-      <button
-        onClick={handleEdit}
-        hidden={props.user?.id === props.post.user._id ? false : true}
-      >
-        Edit
-      </button>
+      <Link to={`/posts/${props.post._id}/edit`}>
+        <button
+          onClick={handleEdit}
+          hidden={props.user?.id === props.post.user._id ? false : true}
+        >
+          Edit link
+        </button>
+      </Link>
 
       <button
         className="like"
@@ -100,7 +103,7 @@ const Post = (props) => {
         {liked ? 'Unlike' : 'Like'}
       </button>
       <div className="comments">
-        Comments:
+        {comments.length ? 'Comments:' : 'No comments yet'}
         {comments.map((comment) => (
           <Comment
             key={comment._id}
@@ -111,27 +114,29 @@ const Post = (props) => {
             comments={comments}
           />
         ))}
-        <CommentForm
-          post={props.post}
-          setComments={setComments}
-          comments={comments}
-        />
+        {!props.user && <p>Please log in to comment</p>}
+        {props.user && (
+          <CommentForm
+            post={props.post}
+            setComments={setComments}
+            comments={comments}
+            hidden={props.user?.id === props.post.user._id ? false : true}
+          />
+        )}
       </div>
       {editing ? (
         <PostForm
-          title={props.post.title}
           post={props.post}
-          content={props.post.content}
           user={props.user}
           setEditing={setEditing}
           setPosts={props.setPosts}
           id={props.post._id}
           editing={editing}
-          published={props.post.published}
           comments={comments}
+          hidden={props.user ? false : true}
         />
       ) : null}
-    </div>
+    </main>
   )
 }
 

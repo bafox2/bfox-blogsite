@@ -11,6 +11,7 @@ import axios from 'axios'
 import Loader from './Components/Loader'
 import PostForm from './Components/PostForm'
 import Dashboard from './Components/Dashboard'
+import PostFormCreate from './Components/PostFormCreate.js'
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -27,8 +28,8 @@ function App() {
   return (
     <div className="App">
       <Loader loading={loading} />
-      <div hidden={loading ? true : false}>
-        <Header user={user} setUser={setUser} />
+      <div hidden={loading ? true : false} className="container">
+        <Header className="header" user={user} setUser={setUser} />
         <Routes>
           <Route
             path="/"
@@ -45,7 +46,7 @@ function App() {
           <Route path="/login" element={<LoginForm setUser={setUser} />} />
           <Route
             path="/create"
-            element={<PostForm user={user} posts={posts} setPosts={setPosts} />}
+            element={<PostFormCreate user={user} setPosts={setPosts} />}
           />
           {posts.map((post) => (
             <Route
@@ -57,6 +58,22 @@ function App() {
                   post={post}
                   setPosts={setPosts}
                   user={user}
+                />
+              }
+            />
+          ))}
+
+          {posts.map((post) => (
+            <Route
+              path={`/posts/${post._id}/edit`}
+              key={post._id}
+              element={
+                <PostForm
+                  user={user}
+                  post={post}
+                  setPosts={setPosts}
+                  id={post._id}
+                  editing={true}
                 />
               }
             />

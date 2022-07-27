@@ -28,34 +28,37 @@ const LoginForm = (props) => {
   }
   return (
     <main>
-      <form onSubmit={handleSubmit}>
-        {/* username section */}
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          className="form-control"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        {/* password section */}
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          className="form-control"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {/* buttons */}
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
-      </form>
-      <p>
-        Don't have an account? <Link to="/signup">Signup</Link>
-      </p>
-      <p>{error}</p>
+      <div className="login-main">
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit}>
+          {/* username section */}
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            className="form-control"
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          {/* password section */}
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            className="form-control"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {/* buttons */}
+          <button type="submit" className="btn btn-primary">
+            Login
+          </button>
+        </form>
+        <p>
+          Don't have an account? <Link to="/signup">Signup</Link>
+        </p>
+        <p>{error}</p>
+      </div>
     </main>
   )
 }

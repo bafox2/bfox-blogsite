@@ -1,3 +1,15 @@
+@use './css/abstracts/variables.scss';
+@use './css/abstracts/resets.scss';
+@use './css/layout/layouts.scss';
+@use './css/base/base.scss';
+
+@use './css/module/Comment.scss';
+@use './css/module/Dashboard.scss';
+@use './css/module/Header.scss';
+@use './css/module/SignupForm.scss';
+@use './css/module/LoginForm.scss';
+@use './css/module/PostPreview.scss';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

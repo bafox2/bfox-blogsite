@@ -11,16 +11,18 @@ const Landing = (props) => {
   }, [props])
 
   return (
-    <div>
-      {published.map((post) => (
-        <PostPreview
-          key={post._id}
-          post={post}
-          publishEdit={false}
-          setPosts={props.setPosts}
-        />
-      ))}
-    </div>
+    <main className="main">
+      <div className="preview-container">
+        {published.map((post) => (
+          <PostPreview
+            key={post._id}
+            post={post}
+            publishEdit={false}
+            setPosts={props.setPosts}
+          />
+        ))}
+      </div>
+    </main>
   )
 }
 

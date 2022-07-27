@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Comment = (props) => {
-  const [newComment, setNewComment] = useState(props.comment.content)
+  const [newComment, setNewComment] = useState(props.comment.comment)
   const [editing, setEditing] = useState(false)
 
   const deleteComment = () => {
@@ -25,8 +25,6 @@ const Comment = (props) => {
   }
 
   const editComment = (e) => {
-    //there is a disconnect on where the url sends
-    console.log(props.comment._id)
     e.preventDefault()
     axios
       .put(

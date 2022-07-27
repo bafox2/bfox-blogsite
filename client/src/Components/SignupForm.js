@@ -26,39 +26,48 @@ const SignupForm = (props) => {
 
   return (
     <main>
-      <form onSubmit={handleSubmit}>
-        {/* username section */}
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          name="username"
-          className="form-control"
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        {/* password section */}
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          name="password"
-          className="form-control"
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {/* confirm password section */}
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          className="form-control"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-        />
-        {/* buttons */}
-        <button type="submit" className="btn btn-primary">
-          Signup
-        </button>
-      </form>
+      <div className="signup-main">
+        <h1>Sign-up</h1>
+        <form onSubmit={handleSubmit}>
+          {/* username section */}
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              className="form-control"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          {/* password section */}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {/* confirm password section */}
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              className="form-control"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            {/* buttons */}
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Signup
+          </button>
+        </form>
+      </div>
     </main>
   )
 }
