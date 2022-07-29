@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 
 exports.post_list = (req, res, next) => {
   Post.find()
-    .populate('user')
+    .populate('user likes comments')
     .exec((err, posts) => {
       if (err) res.json(err)
       res.json(posts)
@@ -186,6 +186,7 @@ exports.post_likes = (req, res, next) => {
   Post.findById(req.params.id).exec((err, post) => {
     if (err) return res.json(err)
     console.log(post.likes, 'post from likes')
+    console.log(req.params.id, 'post id')
     return res.json(post.likes)
   })
 }

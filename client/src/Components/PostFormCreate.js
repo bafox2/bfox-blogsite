@@ -95,10 +95,10 @@ const PostFormCreate = (props) => {
           apiKey={process.env.REACT_APP_EDITOR_KEY}
           init={{
             height: '300px',
-            menubar: false,
-            plugins: [],
+            menubar: true,
+            plugins: ['link', 'lists'],
             toolbar:
-              'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | help',
+              'undo redo | blocks | bold italic underline | link | bullist numlist',
           }}
           value={formData.content}
           textareaName="content"

@@ -5,6 +5,9 @@ const Comment = (props) => {
   const [newComment, setNewComment] = useState(props.comment.comment)
   const [editing, setEditing] = useState(false)
 
+  //this is messed up because it's getting the data from react's state, not the dom
+  //a use effect that will update the dom after editing
+
   const deleteComment = () => {
     axios
       .delete(`/comments/${props.comment._id}/delete`, {
@@ -76,6 +79,7 @@ const Comment = (props) => {
           <button type="submit">Edit</button>
         </form>
       ) : (
+        //this is where a useeffect is needed to update after an edit
         <p>{props.comment.comment}</p>
       )}
       <button

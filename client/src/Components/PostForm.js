@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
+import parse from 'html-react-parser'
 
 const PostForm = (props) => {
   const [formData, setFormData] = useState({
@@ -23,32 +24,18 @@ const PostForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!props.editing) {
-      axios
-        .post('/posts/create', formData, headers)
-        .then((res) => {
-          props.setPosts((prevState) => [...prevState, res.data])
-          navigate(`/posts/${res.data._id}`)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    } else {
-      axios
-        .put(`/posts/${props.post._id}/edit`, formData, headers)
-        .then((res) => {
-          props.setPosts((prevState) =>
-            prevState.map((post) =>
-              post._id === res.data._id ? res.data : post
-            )
-          )
-          console.log(res.data)
-          navigate(`/posts/${res.data._id}`)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
+    axios
+      .put(`/posts/${props.post._id}/edit`, formData, headers)
+      .then((res) => {
+        props.setPosts((prevState) =>
+          prevState.map((post) => (post._id === res.data._id ? res.data : post))
+        )
+        console.log(res.data)
+        navigate(`/posts/${res.data._id}`)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   const parseEditorData = (content, editor) => {
@@ -113,12 +100,12 @@ const PostForm = (props) => {
             apiKey={process.env.REACT_APP_EDITOR_KEY}
             init={{
               height: '300px',
-              menubar: false,
-              plugins: [],
+              menubar: true,
+              plugins: ['link', 'lists'],
               toolbar:
-                'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | help',
+                'undo redo | blocks | bold italic underline | link | bullist numlist',
             }}
-            value={formData.content}
+            initialValue={formData.content}
             textareaName="content"
             onEditorChange={(content, editor) => {
               handleChange(parseEditorData(content, editor))

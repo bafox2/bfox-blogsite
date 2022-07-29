@@ -4,31 +4,62 @@ import Comment from './Comment'
 import CommentForm from './CommentForm'
 import PostForm from './PostForm'
 import { Link } from 'react-router-dom'
+import parse from 'html-react-parser'
+import DOMPurify from 'dompurify'
 
 const Post = (props) => {
   const [comments, setComments] = useState([])
   const [likes, setLikes] = useState([])
+  //this needs to have the default value updated
   const [liked, setLiked] = useState()
   const [commentEdit, setCommentEdit] = useState(false)
   const [editing, setEditing] = useState(false)
 
+  //likes are disconnected from database
+  //need to make it unique, and need to make sure that 'get posts' information stays in sync
+  //need to make sure that the like/unlike button shows the correct option
+  useEffect(() => {
+    axios
+      .get(`/posts/${props.post._id}`)
+      .then((res) => {
+        props.setPosts((prevState) =>
+          prevState.map((post) => (post._id === res.data._id ? res.data : post))
+        )
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [props.post])
+
   useEffect(() => {
     axios.get(`/posts/${props.post._id}/likes`).then((res) => {
       setLikes(res.data)
-      if (res.data.some((id) => id === props.user?._id)) setLiked(true)
+      console.log(res.data, 'likes when is this firieng')
+      console.log(props.user, 'user id')
+      if (res.data.some((id) => id === props.user?.id)) setLiked(true)
     })
-  }, [props.likes, props._id, props.user])
+  }, [liked])
+
+  const options = {
+    replace: (domNode) => {
+      if (domNode.attribs && domNode.attribs.class === 'remove') {
+        return <></>
+      }
+    },
+  }
 
   useEffect(() => {
+    console.log('use effect from post')
     axios
       .get(`/comments/${props.post._id}/`)
       .then((res) => {
         setComments(res.data)
+        console.log(res.data, 'comments from post')
       })
       .catch((err) => {
         console.error(err)
       })
-  }, [props.post._id])
+  }, [commentEdit])
 
   const handleEdit = () => {
     setEditing(true)
@@ -78,12 +109,47 @@ const Post = (props) => {
     }
   }
 
+  // console.log(
+  //   DOMPurify.sanitize(props.post.content, {
+  //     ALLOWED_TAGS: ['span', 'p', 'a', 'em', 'i', 'u', 's', 'strong'],
+  //     ALLOWED_ATTR: ['href', 'class', 'style'],
+  //   }),
+  //   'purified'
+  // )
+
+  // const handleDangerousHTML = DOMPurify.sanitize(props.post.content, {
+  //   ALLOWED_TAGS: [
+  //     'span',
+  //     'p',
+  //     'a',
+  //     'em',
+  //     'i',
+  //     'u',
+  //     's',
+  //     'strong',
+  //     'sup',
+  //     'sub',
+  //     'code',
+  //     'pre',
+  //     'blockquote',
+  //     'h1',
+  //     'h2',
+  //     'h3',
+  //     'h4',
+  //     'h5',
+  //     'h6',
+  //   ],
+  //   ALLOWED_ATTR: ['href', 'class', 'style'],
+  // })
+
   return (
     <main className="post">
       <h1 className="title">{props.post.title}</h1>
       <h2 className="author">By: {props.post.user.username}</h2>
-      <p>{props.post.content}</p>
-      <p>Likes: {props.post.likes.length}</p>
+      <p
+        dangerouslySetInnerHTML={{ __html: parse(props.post.content, options) }}
+      />
+      <p>Likes: {likes.length}</p>
       <p>{props.post.createdAt}</p>
       <p>{props.post._id}</p>
       <Link to={`/posts/${props.post._id}/edit`}>
@@ -120,11 +186,10 @@ const Post = (props) => {
             post={props.post}
             setComments={setComments}
             comments={comments}
-            hidden={props.user?.id === props.post.user._id ? false : true}
           />
         )}
       </div>
-      {editing ? (
+      {editing && (
         <PostForm
           post={props.post}
           user={props.user}
@@ -135,7 +200,7 @@ const Post = (props) => {
           comments={comments}
           hidden={props.user ? false : true}
         />
-      ) : null}
+      )}
     </main>
   )
 }
