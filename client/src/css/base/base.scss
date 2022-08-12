@@ -1,6 +1,14 @@
 // forms, titles, buttons
 @import '../abstracts/variables.scss';
+
+* {
+  box-sizing: border-box;
+  font-family: 'Hepta Slab', serif;
+}
+
 header {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -30,7 +38,6 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-y: scroll;
   card {
     width: 200px;
   }
@@ -48,43 +55,66 @@ footer {
   border-top: 1px solid $secondary-light;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 50%;
-  padding: 30px;
-  margin-bottom: 10px;
-  border: 1px solid $primary-light;
-  border-radius: 1px 50px;
-  input {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  //just buttons in a form
-  button {
-    width: 150px;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid $primary-light;
-    border-radius: 5px;
-    background-color: $secondary-dark;
-    color: #fff;
+.form {
+  width: 75%;
+  padding: 1rem;
+  border-radius: $border-radius-form;
+  background-color: grey;
+  &__title {
     font-size: 1.2rem;
     font-weight: bold;
-    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  &__description {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  &__group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  &__input {
+    width: 100%;
+    height: 100%;
+    border: 2px solid $secondary-light;
+    border-radius: $border-radius;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    padding: 0.5rem;
+    background: none;
+    &:hover {
+      border: 2px solid $secondary;
+    }
+    &:focus {
+      border: 2px solid $secondary-dark;
+    }
+  }
+  &__label {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    padding: 0 0.5rem;
+    background-color: grey;
+    transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
   }
 }
 
-//buttons across the site, not in a form
+.form__input:focus ~ .form__label,
+.form__input:not(:placeholder-shown).form__input:not(:focus) ~ .form__label {
+  top: -10px;
+  left: 20px;
+  font-size: small;
+  border-radius: $border-radius;
+}
+
+//just buttons in a form
 button {
+  width: 150px;
   padding: 10px;
   margin: 10px;
-  border-radius: 5px;
+  border: none;
+  border-radius: $border-radius;
   background-color: $secondary-dark;
   color: #fff;
   font-size: 1.2rem;

@@ -15,9 +15,6 @@ const Post = (props) => {
   const [commentEdit, setCommentEdit] = useState(false)
   const [editing, setEditing] = useState(false)
 
-  //likes are disconnected from database
-  //need to make it unique, and need to make sure that 'get posts' information stays in sync
-  //need to make sure that the like/unlike button shows the correct option
   useEffect(() => {
     axios
       .get(`/posts/${props.post._id}`)
@@ -29,13 +26,11 @@ const Post = (props) => {
       .catch((err) => {
         console.log(err)
       })
-  }, [props.post])
+  }, [])
 
   useEffect(() => {
     axios.get(`/posts/${props.post._id}/likes`).then((res) => {
       setLikes(res.data)
-      console.log(res.data, 'likes when is this firieng')
-      console.log(props.user, 'user id')
       if (res.data.some((id) => id === props.user?.id)) setLiked(true)
     })
   }, [liked])
@@ -49,12 +44,10 @@ const Post = (props) => {
   }
 
   useEffect(() => {
-    console.log('use effect from post')
     axios
       .get(`/comments/${props.post._id}/`)
       .then((res) => {
         setComments(res.data)
-        console.log(res.data, 'comments from post')
       })
       .catch((err) => {
         console.error(err)

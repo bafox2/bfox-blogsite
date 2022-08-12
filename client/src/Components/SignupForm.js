@@ -26,38 +26,38 @@ const SignupForm = (props) => {
 
   return (
     <main>
-      <div className="signup-main">
-        <h1>Sign-up</h1>
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+        <div className="form">
+          <h1>Sign-up</h1>
           {/* username section */}
-          <div className="form-group">
+          <div className="form__group">
             <label htmlFor="username">Username</label>
             <input
               type="text"
               name="username"
-              className="form-control"
+              className="form__control"
               onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
           {/* password section */}
-          <div className="form-group">
+          <div className="form__group">
             <label htmlFor="password">Password</label>
             <input
               type="password"
               name="password"
-              className="form-control"
+              className="form__control"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
           {/* confirm password section */}
-          <div className="form-group">
+          <div className="form__group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
-              className="form-control"
+              className="form__control"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
@@ -66,8 +66,8 @@ const SignupForm = (props) => {
           <button type="submit" className="btn btn-primary">
             Signup
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </main>
   )
 }

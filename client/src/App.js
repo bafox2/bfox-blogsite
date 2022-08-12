@@ -24,7 +24,6 @@ function App() {
       setLoading(false)
     })
   }, [])
-
   return (
     <div className="App">
       <Loader loading={loading} />

@@ -12,6 +12,7 @@ const Landing = (props) => {
 
   return (
     <main className="main">
+      <h1>Posts</h1>
       <div className="preview-container">
         {published.map((post) => (
           <PostPreview

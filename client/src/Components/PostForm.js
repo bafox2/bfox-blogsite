@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
-import parse from 'html-react-parser'
 
 const PostForm = (props) => {
   const [formData, setFormData] = useState({
@@ -70,6 +69,11 @@ const PostForm = (props) => {
     })
   }
 
+  const htmlDecode = (input) => {
+    var doc = new DOMParser().parseFromString(input, 'text/html')
+    return doc.documentElement.textContent
+  }
+
   return (
     <main>
       {props.post.user.username === props.user.username ? (
@@ -105,7 +109,7 @@ const PostForm = (props) => {
               toolbar:
                 'undo redo | blocks | bold italic underline | link | bullist numlist',
             }}
-            initialValue={formData.content}
+            value={htmlDecode(formData.content)}
             textareaName="content"
             onEditorChange={(content, editor) => {
               handleChange(parseEditorData(content, editor))

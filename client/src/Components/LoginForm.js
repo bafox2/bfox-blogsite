@@ -28,37 +28,47 @@ const LoginForm = (props) => {
   }
   return (
     <main>
-      <div className="login-main">
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-          {/* username section */}
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            name="username"
-            className="form-control"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-          {/* password section */}
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="form-control"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+      <form onSubmit={handleSubmit}>
+        <div className="form">
+          <h1 className="form__title">Login</h1>
+
+          <div className="form__group">
+            <input
+              className="form__input"
+              type="text"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="off"
+              required
+              placeholder=""
+            />
+            <label className="form__label" htmlFor="username">
+              Username
+            </label>
+          </div>
+          <div className="form__group">
+            <input
+              placeholder=""
+              type="password"
+              name="password"
+              className="form__input"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label className="form__label" htmlFor="password">
+              Password
+            </label>
+          </div>
           {/* buttons */}
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className="form__button">
             Login
           </button>
-        </form>
-        <p>
-          Don't have an account? <Link to="/signup">Signup</Link>
-        </p>
-        <p>{error}</p>
-      </div>
+          <p className="form__description">
+            Don't have an account? <Link to="/signup">Signup</Link>
+          </p>
+          <p className="form__warning">{error}</p>
+        </div>
+      </form>
     </main>
   )
 }

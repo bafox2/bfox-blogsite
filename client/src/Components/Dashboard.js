@@ -24,6 +24,7 @@ const Dashboard = (props) => {
     <main className="main">
       <div className="dashboard">
         <div className="preview-container">
+          <h1>Your Posts</h1>
           <div className="preview-published">
             <h3>Published Post</h3>
             <div>
