@@ -16,19 +16,6 @@ const Post = (props) => {
   const [editing, setEditing] = useState(false)
 
   useEffect(() => {
-    axios
-      .get(`/posts/${props.post._id}`)
-      .then((res) => {
-        props.setPosts((prevState) =>
-          prevState.map((post) => (post._id === res.data._id ? res.data : post))
-        )
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
-
-  useEffect(() => {
     axios.get(`/posts/${props.post._id}/likes`).then((res) => {
       setLikes(res.data)
       if (res.data.some((id) => id === props.user?.id)) setLiked(true)
@@ -101,14 +88,6 @@ const Post = (props) => {
         })
     }
   }
-
-  // console.log(
-  //   DOMPurify.sanitize(props.post.content, {
-  //     ALLOWED_TAGS: ['span', 'p', 'a', 'em', 'i', 'u', 's', 'strong'],
-  //     ALLOWED_ATTR: ['href', 'class', 'style'],
-  //   }),
-  //   'purified'
-  // )
 
   // const handleDangerousHTML = DOMPurify.sanitize(props.post.content, {
   //   ALLOWED_TAGS: [

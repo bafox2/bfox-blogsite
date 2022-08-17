@@ -1,25 +1,28 @@
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import '../index.scss'
 
+//the axios thing is working, we just need to make sure that the ui is changed
 const PostPreview = (props) => {
-  const handlePublish = () => {
-    let publishAction = props.published ? 'unpublish' : 'publish'
+  const handlePublish = (post) => {
+    let publishAction = post.published ? 'unpublish' : 'publish'
 
     let headers = {
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
     }
 
+    //i am unsure if the post is being unpublished because the backend is doing it?
     axios
-      .put(`/posts/${props.post._id}/${publishAction}`, {}, { headers })
+      .put(`/posts/${post._id}/${publishAction}`, {}, { headers })
       .then((res) => {
         props.setPosts((prevState) =>
           prevState.map((post) => {
-            if (post._id === props.post._id) {
-              //will need to make sure that backed connects here
-              post.published = !post.published
+            if (post._id === res.data._id) {
+              return res.data
+            } else {
+              return post
             }
-            return post
           })
         )
       })
@@ -46,6 +49,9 @@ const PostPreview = (props) => {
         console.error(err)
       })
   }
+
+  //useEffect for publishing that will update the page after the backend is updated
+
   return (
     <div className="preview">
       <Link to={`/posts/${props.post._id}`}>
@@ -59,7 +65,7 @@ const PostPreview = (props) => {
       <p>{props.post.body}</p>
       {/* will need to make this conditional for dashboard */}
       <button
-        onClick={handlePublish}
+        onClick={() => handlePublish(props.post)}
         hidden={props.publishAccess ? false : true}
       >
         {props.post.published ? 'Unpublish' : 'Publish'}
