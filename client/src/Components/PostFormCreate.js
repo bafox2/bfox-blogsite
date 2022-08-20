@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
+import QuillEditor from './QuillEditor'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import { modules, formats } from './EditorToolbar'
 
 const PostFormCreate = (props) => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -12,8 +17,6 @@ const PostFormCreate = (props) => {
     published: false,
     imgUrl: '',
   })
-
-  const navigate = useNavigate()
 
   let headers = {
     headers: {
@@ -52,6 +55,7 @@ const PostFormCreate = (props) => {
       ...prevState,
       [name]: value,
     }))
+    console.log(formData)
   }
 
   const clearForm = (e) => {
@@ -66,9 +70,25 @@ const PostFormCreate = (props) => {
     })
   }
 
+  const handleQuillEdit = (value) => {
+    setFormData((prev) => {
+      return {
+        ...prev,
+        content: value,
+      }
+    })
+  }
+
   return (
     <main>
       <form onSubmit={handleSubmit}>
+        <ReactQuill
+          theme="snow"
+          value={formData.content}
+          onChange={handleQuillEdit}
+          modules={modules}
+          formats={formats}
+        />
         {/* title section */}
         <label htmlFor="title">Title</label>
         <input
@@ -91,7 +111,7 @@ const PostFormCreate = (props) => {
         />
         {/* content section */}
         <label htmlFor="content">Content</label>
-        <Editor
+        {/* <Editor
           apiKey={process.env.REACT_APP_EDITOR_KEY}
           init={{
             height: '300px',
@@ -105,7 +125,7 @@ const PostFormCreate = (props) => {
           onEditorChange={(content, editor) => {
             handleChange(parseEditorData(content, editor))
           }}
-        ></Editor>
+        ></Editor> */}
         <button type="submit" className="btn btn-primary">
           {'Submit'}
         </button>

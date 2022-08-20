@@ -13,6 +13,11 @@ const Landing = (props) => {
   return (
     <main className="main">
       <h1>Posts</h1>
+      <p>
+        This is a space for people who are learning how to code to share the
+        things they wish they knew about when they first started. Some post
+        ideas could be resources they found enlighting,
+      </p>
       <div className="preview-container">
         {published.map((post) => (
           <PostPreview

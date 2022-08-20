@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
+import QuillEditor from './QuillEditor'
 
 const PostForm = (props) => {
   const [formData, setFormData] = useState({
