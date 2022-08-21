@@ -22,6 +22,7 @@ function App() {
     axios.get('/posts').then((res) => {
       setPosts(res.data)
       setLoading(false)
+      console.log('posts useeffect')
     })
   }, [])
   return (
@@ -67,7 +68,7 @@ function App() {
               path={`/posts/${post._id}/edit`}
               key={post._id}
               element={
-                <PostForm
+                <PostFormCreate
                   user={user}
                   post={post}
                   setPosts={setPosts}

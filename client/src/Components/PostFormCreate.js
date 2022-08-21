@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
@@ -6,16 +6,17 @@ import QuillEditor from './QuillEditor'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { modules, formats } from './EditorToolbar'
+import htmlEntities, { decode } from 'html-entities'
 
 const PostFormCreate = (props) => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    user: '',
-    comments: [],
-    published: false,
-    imgUrl: '',
+    title: props.post?.title || '',
+    content: props.post?.content || '',
+    user: props.user?.id || '',
+    comments: props.post?.comments || [],
+    published: props.post?.published || false,
+    imgUrl: props.post?.imgUrl || '',
   })
 
   let headers = {
@@ -26,26 +27,33 @@ const PostFormCreate = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios
-      .post('/posts/create', formData, headers)
-      .then((res) => {
-        props.setPosts((prevState) => [...prevState, res.data])
-        navigate(`/posts/${res.data._id}`)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+    if (props.post) {
+      axios
+        .put(`/posts/${props.post._id}/edit`, formData, headers)
+        .then((res) => {
+          console.log(formData)
+          props.setPosts((prevState) =>
+            prevState.map((post) => (props.id === post._id ? res.data : post))
+          )
 
-  const parseEditorData = (content, editor) => {
-    const { targetElm } = editor
-    const { name } = targetElm
-
-    return {
-      target: {
-        name,
-        value: content,
-      },
+          console.log(formData)
+          console.log(res.data)
+          console.log(decode(res.data.content))
+          navigate(`/posts/${res.data._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      axios
+        .post('/posts/create', formData, headers)
+        .then((res) => {
+          props.setPosts((prevState) => [...prevState, res.data])
+          navigate(`/posts/${res.data._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 
@@ -55,19 +63,17 @@ const PostFormCreate = (props) => {
       ...prevState,
       [name]: value,
     }))
-    console.log(formData)
+    console.log(e.target)
   }
 
   const clearForm = (e) => {
     e.preventDefault()
-    setFormData({
+    setFormData((prevState) => ({
+      ...prevState,
       title: '',
       content: '',
-      user: '',
-      comments: [],
-      published: false,
       imgUrl: '',
-    })
+    }))
   }
 
   const handleQuillEdit = (value) => {
@@ -79,12 +85,18 @@ const PostFormCreate = (props) => {
     })
   }
 
+  const quillDelta = (content, delta, source, editor) => {
+    console.log(editor.getContents())
+  }
+
   return (
     <main>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="content">Content</label>
         <ReactQuill
           theme="snow"
-          value={formData.content}
+          // value={formData.content}
+          defaultValue={decode(formData.content)}
           onChange={handleQuillEdit}
           modules={modules}
           formats={formats}
@@ -95,7 +107,7 @@ const PostFormCreate = (props) => {
           type="text"
           name="title"
           className="form-control"
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
           value={formData.title}
           required={true}
         />
@@ -109,23 +121,7 @@ const PostFormCreate = (props) => {
           value={formData.imgUrl}
           required={true}
         />
-        {/* content section */}
-        <label htmlFor="content">Content</label>
-        {/* <Editor
-          apiKey={process.env.REACT_APP_EDITOR_KEY}
-          init={{
-            height: '300px',
-            menubar: true,
-            plugins: ['link', 'lists'],
-            toolbar:
-              'undo redo | blocks | bold italic underline | link | bullist numlist',
-          }}
-          value={formData.content}
-          textareaName="content"
-          onEditorChange={(content, editor) => {
-            handleChange(parseEditorData(content, editor))
-          }}
-        ></Editor> */}
+
         <button type="submit" className="btn btn-primary">
           {'Submit'}
         </button>

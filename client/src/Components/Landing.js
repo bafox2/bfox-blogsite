@@ -8,7 +8,8 @@ const Landing = (props) => {
 
   useEffect(() => {
     setPublished(() => props.posts.filter((post) => post.published))
-  }, [props])
+    console.log('landing useeffect')
+  }, [props.posts])
 
   return (
     <main className="main">

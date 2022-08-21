@@ -89,31 +89,6 @@ const Post = (props) => {
     }
   }
 
-  // const handleDangerousHTML = DOMPurify.sanitize(props.post.content, {
-  //   ALLOWED_TAGS: [
-  //     'span',
-  //     'p',
-  //     'a',
-  //     'em',
-  //     'i',
-  //     'u',
-  //     's',
-  //     'strong',
-  //     'sup',
-  //     'sub',
-  //     'code',
-  //     'pre',
-  //     'blockquote',
-  //     'h1',
-  //     'h2',
-  //     'h3',
-  //     'h4',
-  //     'h5',
-  //     'h6',
-  //   ],
-  //   ALLOWED_ATTR: ['href', 'class', 'style'],
-  // })
-
   return (
     <main className="post">
       <h1 className="title">{props.post.title}</h1>
@@ -141,17 +116,17 @@ const Post = (props) => {
         {liked ? 'Unlike' : 'Like'}
       </button>
       <div className="comments">
-        {comments.length ? 'Comments:' : 'No comments yet'}
-        {comments.map((comment) => (
-          <Comment
-            key={comment._id}
-            comment={comment}
-            user={props.user}
-            setComments={setComments}
-            setCommentEdit={setCommentEdit}
-            comments={comments}
-          />
-        ))}
+        {comments.length &&
+          comments.map((comment) => (
+            <Comment
+              key={comment._id}
+              comment={comment}
+              user={props.user}
+              setComments={setComments}
+              setCommentEdit={setCommentEdit}
+              comments={comments}
+            />
+          ))}
         {!props.user && <p>Please log in to comment</p>}
         {props.user && (
           <CommentForm

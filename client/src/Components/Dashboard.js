@@ -7,18 +7,19 @@ const Dashboard = (props) => {
   const [showUnpublished, setShowUnpublished] = useState(false)
 
   useEffect(() => {
+    console.log('dashboard useeffect')
     props.posts.filter(
-      (post) => post.user._id === props.user._id && post.published === true
+      (post) => post.user._id === props.user._id && post.published
     ).length
       ? setShowPublished(true)
       : setShowPublished(false)
 
     props.posts.filter(
-      (post) => post.user._id === props.user._id && post.published === false
+      (post) => post.user._id === props.user._id && !post.published
     ).length
       ? setShowUnpublished(true)
       : setShowUnpublished(false)
-  }, [props.posts])
+  }, [props.posts, props.user])
 
   return (
     <main className="main">

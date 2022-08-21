@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
@@ -24,18 +24,32 @@ const PostForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios
-      .put(`/posts/${props.post._id}/edit`, formData, headers)
-      .then((res) => {
-        props.setPosts((prevState) =>
-          prevState.map((post) => (post._id === res.data._id ? res.data : post))
-        )
-        console.log(res.data)
-        navigate(`/posts/${res.data._id}`)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (props.post) {
+      axios
+        .put(`/posts/${props.post._id}/edit`, formData, headers)
+        .then((res) => {
+          props.setPosts((prevState) =>
+            prevState.map((post) =>
+              post._id === res.data._id ? res.data : post
+            )
+          )
+          console.log(res.data)
+          navigate(`/posts/${res.data._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+      axios
+        .post('/posts/create', formData, headers)
+        .then((res) => {
+          props.setPosts((prevState) => [...prevState, res.data])
+          navigate(`/posts/${res.data._id}`)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 
   const parseEditorData = (content, editor) => {

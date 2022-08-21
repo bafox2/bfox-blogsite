@@ -25,7 +25,6 @@ exports.post_create = [
   body('content', 'Content is required').trim().isLength({ min: 2 }).escape(),
   body('imgUrl', 'img is required').trim().isLength({ min: 2 }).escape(),
   (req, res, next) => {
-    console.log('in there')
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       console.log(errors.array())
@@ -77,13 +76,13 @@ exports.post_edit = [
       title,
       content,
       imgUrl,
-      published,
     })
       .populate('user')
       .exec((err, post) => {
         if (err) {
           return res.json(err)
         }
+        console.log(post, 'post from edit')
         return res.json(post)
       })
   },
@@ -162,7 +161,6 @@ exports.post_like = (req, res, next) => {
     { $push: { likes: req.body.user_id } },
     { new: true },
     (err, post) => {
-      console.log(post.likes, 'post from like')
       if (err) return res.json(err)
       return res.json(post.likes)
     }
@@ -175,7 +173,6 @@ exports.post_unlike = (req, res, next) => {
     { $pull: { likes: req.body.user_id } },
     { new: true },
     (err, post) => {
-      console.log(post.likes, 'post from unlike')
       if (err) return res.json(err)
       return res.json(post.likes)
     }
@@ -185,8 +182,6 @@ exports.post_unlike = (req, res, next) => {
 exports.post_likes = (req, res, next) => {
   Post.findById(req.params.id).exec((err, post) => {
     if (err) return res.json(err)
-    console.log(post.likes, 'post from likes')
-    console.log(req.params.id, 'post id')
     return res.json(post.likes)
   })
 }
