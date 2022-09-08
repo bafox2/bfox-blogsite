@@ -1,29 +1,37 @@
 import axios from 'axios'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SignupForm = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault()
     axios
       .post('/users/signup', { username, password, confirmPassword })
-      .then(() => props.history.push('users/signup'))
+      .then((res) => {
+        navigate('/login')
+      })
+
       .catch((err) => {
-        if (err.status === 400) {
-          setError('Passwords do not match')
-          console.log(error)
-        } else if (err.status === 409) {
-          setError('Username already taken')
+        console.log(err)
+        if (err.response.status === 401) {
+          console.log(err.response.data.message)
+          setMessage(err.response.data.message)
+        }
+        if (err.response.status === 409) {
+          console.log(err.response.data.message)
+          setMessage(err.response.data.message)
         } else {
-          setError('Something went wrong')
+          console.log(err)
         }
       })
   }
-
+  console.log(message)
   return (
     <main>
       <form onSubmit={handleSubmit}>
@@ -74,6 +82,7 @@ const SignupForm = (props) => {
               Confirm Password
             </label>
           </div>
+          <p className="form__warning">{message}</p>
           <button type="submit" className="btn btn-primary">
             Signup
           </button>

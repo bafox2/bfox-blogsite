@@ -29,6 +29,7 @@ exports.post_create = [
       ALLOWED_TAGS: [
         'p',
         'br',
+        'hr',
         'strong',
         'em',
         'h1',

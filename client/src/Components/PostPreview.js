@@ -60,7 +60,8 @@ const PostPreview = (props) => {
         <h3 className="author"> {props.post.user.username}</h3>
         <p className="posted">{props.post.createdAt.slice(0, 10)}</p>
         <p className="content">
-          Preview: {props.post.content.slice(0, 140)}...
+          {props.post.content.slice(0, 140).replace(/<[^>]+>/gi, ' ')}
+          ...
         </p>
         <img
           className="imgPreview"

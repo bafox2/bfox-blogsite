@@ -111,6 +111,7 @@ const Post = (props) => {
       <div className="comments">
         {comments && (
           <>
+            <hr></hr>
             <h2>Comments</h2>
             {comments.map((comment) => (
               <Comment

@@ -8,14 +8,15 @@ const Landing = (props) => {
   useEffect(() => {
     setPublished(() => props.posts.filter((post) => post.published))
   }, [props.posts])
-
+  console.log(props)
   return (
     <main>
       <h1>Posts</h1>
       <p>
         This is a space for people who are learning how to code to share the
-        things they wish they knew about when they first started. Some post
-        ideas could be resources they found enlighting,
+        things they learned about and think are cool. If you have something to
+        add, you can post a comment. I made this site because when you are able
+        to teach something, you probably learned it well.
       </p>
       <div className="preview-container">
         {published.map((post) => (
