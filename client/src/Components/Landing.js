@@ -10,7 +10,7 @@ const Landing = (props) => {
   }, [props.posts])
 
   return (
-    <main className="main">
+    <main>
       <h1>Posts</h1>
       <p>
         This is a space for people who are learning how to code to share the

@@ -10,9 +10,13 @@
     margin: 0;
     padding: 0;
   }
-}
+  .content {
+    border: 1px solid green;
+    min-width: 90%;
+  }
 
-.comments {
-  max-width: 75%;
-  border: 1px solid blue;
+  .comments {
+    max-width: 75%;
+    border: 1px solid blue;
+  }
 }

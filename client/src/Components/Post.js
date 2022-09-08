@@ -87,6 +87,7 @@ const Post = (props) => {
       <p>{props.post.createdAt.slice(0, 10)}</p>
       <img className="image" src={decode(props.post.imgUrl)} alt="post image" />
       <p
+        className="content"
         dangerouslySetInnerHTML={{
           __html: decode(decode(props.post.content)),
         }}

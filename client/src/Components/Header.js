@@ -13,7 +13,8 @@ function Header(props) {
   }
   return (
     <header>
-      <div>
+      <div className="logo">
+        <p className="tag">learnsplain</p>
         <Icon path={mdiChairSchool} size={1.5} color="white" />
       </div>
       <nav>
