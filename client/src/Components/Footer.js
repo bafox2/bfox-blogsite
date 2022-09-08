@@ -8,7 +8,7 @@ import {
 } from '@mdi/js'
 function Footer() {
   return (
-    <footer className="footer">
+    <footer>
       <Icon path={mdiGithub} size={1.5} color="white" />
 
       <Icon path={mdiMailboxOutline} size={1.5} color="white" />
