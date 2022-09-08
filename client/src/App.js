@@ -9,7 +9,6 @@ import { Routes, Route } from 'react-router-dom'
 import Post from './Components/Post'
 import axios from 'axios'
 import Loader from './Components/Loader'
-import PostForm from './Components/PostForm'
 import Dashboard from './Components/Dashboard'
 import PostFormCreate from './Components/PostFormCreate.js'
 
@@ -22,7 +21,6 @@ function App() {
     axios.get('/posts').then((res) => {
       setPosts(res.data)
       setLoading(false)
-      console.log('posts useeffect')
     })
   }, [])
   return (
@@ -58,11 +56,13 @@ function App() {
                   post={post}
                   setPosts={setPosts}
                   user={user}
+                  posts={posts}
                 />
               }
             />
           ))}
 
+          {/* {can maybe use rote in a route things to make it get rid of 'no routes matched location'} */}
           {posts.map((post) => (
             <Route
               path={`/posts/${post._id}/edit`}
@@ -71,6 +71,7 @@ function App() {
                 <PostFormCreate
                   user={user}
                   post={post}
+                  posts={posts}
                   setPosts={setPosts}
                   id={post._id}
                   editing={true}

@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 
 const CommentForm = (props) => {
   const [comment, setComment] = useState('')
-  const [username, setUsername] = useState()
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -31,10 +30,6 @@ const CommentForm = (props) => {
         console.error(err)
       })
   }
-
-  useEffect(() => {
-    if (props.user) setUsername(props.user.username)
-  }, [props])
 
   return (
     <form onSubmit={submitHandler}>

@@ -1,6 +1,8 @@
 const Post = require('../models/post')
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
+const createDOMPurify = require('dompurify')
+const { JSDOM } = require('jsdom')
 
 exports.post_list = (req, res, next) => {
   Post.find()
@@ -16,13 +18,45 @@ exports.post_create = [
   (req, res, next) => {
     jwt.verify(req.token, process.env.PASSPORT_KEY, (err, authData) => {
       if (err) res.sendStatus(400).json(err)
-      console.log(req.authData)
       req.authData = authData
       next()
     })
   },
+  (req, res, next) => {
+    const window = new JSDOM('').window
+    const DOMPurify = createDOMPurify(window)
+    const richlySanitizedText = DOMPurify.sanitize(req.body.content, {
+      ALLOWED_TAGS: [
+        'p',
+        'br',
+        'strong',
+        'em',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        's',
+        'u',
+        'ul',
+        'ol',
+        'li',
+        'a',
+        'img',
+        'blockquote',
+        'pre',
+        'code',
+        'div',
+        'span',
+      ],
+      ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'style'],
+    })
+    req.body.content = richlySanitizedText
+    next()
+  },
   body('title', 'Title is required').trim().isLength({ min: 2 }).escape(),
-  body('content', 'Content is required').trim().isLength({ min: 2 }).escape(),
+  body('content', 'Content is required').trim().isLength({ min: 2 }),
   body('imgUrl', 'img is required').trim().isLength({ min: 2 }).escape(),
   (req, res, next) => {
     const errors = validationResult(req)
@@ -62,8 +96,41 @@ exports.post_edit = [
       next()
     })
   },
+  (req, res, next) => {
+    const window = new JSDOM('').window
+    const DOMPurify = createDOMPurify(window)
+    const richlySanitizedText = DOMPurify.sanitize(req.body.content, {
+      ALLOWED_TAGS: [
+        'p',
+        'br',
+        'strong',
+        'em',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        's',
+        'u',
+        'ul',
+        'ol',
+        'li',
+        'a',
+        'img',
+        'blockquote',
+        'pre',
+        'code',
+        'div',
+        'span',
+      ],
+      ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'style'],
+    })
+    req.body.content = richlySanitizedText
+    next()
+  },
   body('title', 'Title is required').trim().isLength({ min: 2 }).escape(),
-  body('content', 'Content is required').trim().isLength({ min: 2 }).escape(),
+  body('content', 'Content is required').trim().isLength({ min: 2 }),
   body('imgUrl', 'img is required').trim().isLength({ min: 2 }).escape(),
   (req, res, next) => {
     const errors = validationResult(req)
@@ -72,19 +139,25 @@ exports.post_edit = [
       return res.json({ errors: errors.array() })
     }
     const { title, content, imgUrl, published } = req.body
-    Post.findByIdAndUpdate(req.params.id, {
+    const post = new Post({
       title,
       content,
       imgUrl,
+      user: req.authData.user._id,
+      published,
+      _id: req.params.id,
     })
-      .populate('user')
-      .exec((err, post) => {
+    Post.findByIdAndUpdate(req.params.id, post, { new: true }, (err, post) => {
+      if (err) {
+        return res.json(err)
+      }
+      post.populate('user', (err, post) => {
         if (err) {
           return res.json(err)
         }
-        console.log(post, 'post from edit')
         return res.json(post)
       })
+    })
   },
 ]
 
@@ -149,7 +222,6 @@ exports.post_get = (req, res, next) => {
   Post.findById(req.params.id)
     .populate('user likes comments')
     .exec((err, post) => {
-      console.log(post, 'post from get')
       if (err) return res.json(err)
       return res.json(post)
     })

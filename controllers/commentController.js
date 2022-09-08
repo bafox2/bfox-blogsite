@@ -29,7 +29,6 @@ exports.comment_create = [
         post: req.params.id,
       },
       (err, newComment) => {
-        console.log(newComment, 'comment from comment create')
         if (err) return res.json(err)
         res.json(newComment)
       }
@@ -71,10 +70,7 @@ exports.comment_edit = [
     const update = {
       comment: req.body.comment,
     }
-    //works as intended until here, need to modify what the
-    // params it is look at is
     Comment.findByIdAndUpdate(req.params.id, update, (err, comment) => {
-      console.log(comment, 'comment from comment edit')
       if (err) {
         return res.json(err)
       } else {

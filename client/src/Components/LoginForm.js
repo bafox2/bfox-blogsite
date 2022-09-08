@@ -19,7 +19,7 @@ const LoginForm = (props) => {
       })
       .catch((err) => {
         console.log(err)
-        if (err.response.status === 400) {
+        if (err.response.status === 401) {
           setError(err.response.data.message)
         } else {
           console.log(err)
@@ -31,16 +31,16 @@ const LoginForm = (props) => {
       <form onSubmit={handleSubmit}>
         <div className="form">
           <h1 className="form__title">Login</h1>
-
           <div className="form__group">
             <input
               className="form__input"
               type="text"
               name="username"
+              id="username"
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="off"
-              required
               placeholder=""
+              required
             />
             <label className="form__label" htmlFor="username">
               Username
@@ -51,6 +51,7 @@ const LoginForm = (props) => {
               placeholder=""
               type="password"
               name="password"
+              id="password"
               className="form__input"
               onChange={(e) => setPassword(e.target.value)}
               required

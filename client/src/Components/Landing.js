@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import PostPreview from './PostPreview'
 
@@ -8,7 +7,6 @@ const Landing = (props) => {
 
   useEffect(() => {
     setPublished(() => props.posts.filter((post) => post.published))
-    console.log('landing useeffect')
   }, [props.posts])
 
   return (

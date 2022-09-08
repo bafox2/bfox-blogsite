@@ -2,7 +2,6 @@ import { useState } from 'react'
 import axios from 'axios'
 import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
-import QuillEditor from './QuillEditor'
 
 const PostForm = (props) => {
   const [formData, setFormData] = useState({
@@ -33,7 +32,6 @@ const PostForm = (props) => {
               post._id === res.data._id ? res.data : post
             )
           )
-          console.log(res.data)
           navigate(`/posts/${res.data._id}`)
         })
         .catch((err) => {

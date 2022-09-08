@@ -1,12 +1,10 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
-import { Editor } from '@tinymce/tinymce-react'
 import { useNavigate } from 'react-router-dom'
-import QuillEditor from './QuillEditor'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { modules, formats } from './EditorToolbar'
-import htmlEntities, { decode } from 'html-entities'
+import { decode } from 'html-entities'
 
 const PostFormCreate = (props) => {
   const navigate = useNavigate()
@@ -31,19 +29,15 @@ const PostFormCreate = (props) => {
       axios
         .put(`/posts/${props.post._id}/edit`, formData, headers)
         .then((res) => {
-          console.log(formData)
+          // these lines definitely aren't working
           props.setPosts((prevState) =>
             prevState.map((post) => (props.id === post._id ? res.data : post))
           )
-
-          console.log(formData)
-          console.log(res.data)
-          console.log(decode(res.data.content))
-          navigate(`/posts/${res.data._id}`)
         })
         .catch((err) => {
           console.log(err)
         })
+      navigate(`/posts/${props.post._id}`)
     } else {
       axios
         .post('/posts/create', formData, headers)
@@ -83,10 +77,6 @@ const PostFormCreate = (props) => {
         content: value,
       }
     })
-  }
-
-  const quillDelta = (content, delta, source, editor) => {
-    console.log(editor.getContents())
   }
 
   return (

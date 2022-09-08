@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const Comment = (props) => {
   const [newComment, setNewComment] = useState(props.comment.comment)
@@ -47,13 +47,11 @@ const Comment = (props) => {
         }
       )
       .then((res) => {
-        console.log(res, 'res')
         props.setComments(
           props.comments.map((comment) =>
             comment._id !== props.comment._id ? comment : res.data
           )
         )
-        console.log(res.data, 'res.data')
         props.setCommentEdit(false)
         setEditing(false)
       })

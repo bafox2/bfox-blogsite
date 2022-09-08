@@ -28,40 +28,51 @@ const SignupForm = (props) => {
     <main>
       <form onSubmit={handleSubmit}>
         <div className="form">
-          <h1>Sign-up</h1>
-          {/* username section */}
+          <h1 className="form__title">Sign-up</h1>
           <div className="form__group">
-            <label htmlFor="username">Username</label>
             <input
+              className="form__input"
               type="text"
               name="username"
-              className="form__control"
+              id="username"
+              autoComplete="off"
+              placeholder=""
               onChange={(e) => setUsername(e.target.value)}
               required
             />
+            <label htmlFor="username" className="form__label">
+              Username
+            </label>
           </div>
-          {/* password section */}
           <div className="form__group">
-            <label htmlFor="password">Password</label>
             <input
               type="password"
               name="password"
-              className="form__control"
+              id="password"
+              autoComplete="off"
+              placeholder=""
+              className="form__input"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <label htmlFor="password" className="form__label">
+              Password
+            </label>
           </div>
-          {/* confirm password section */}
           <div className="form__group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
-              className="form__control"
+              id="confirmPassword"
+              autoComplete="off"
+              placeholder=""
+              className="form__input"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            {/* buttons */}
+            <label className="form__label" htmlFor="confirmPassword">
+              Confirm Password
+            </label>
           </div>
           <button type="submit" className="btn btn-primary">
             Signup

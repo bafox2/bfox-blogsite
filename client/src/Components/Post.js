@@ -4,13 +4,11 @@ import Comment from './Comment'
 import CommentForm from './CommentForm'
 import PostForm from './PostForm'
 import { Link } from 'react-router-dom'
-import parse from 'html-react-parser'
-import DOMPurify from 'dompurify'
+import { decode } from 'html-entities'
 
 const Post = (props) => {
   const [comments, setComments] = useState([])
   const [likes, setLikes] = useState([])
-  //this needs to have the default value updated
   const [liked, setLiked] = useState()
   const [commentEdit, setCommentEdit] = useState(false)
   const [editing, setEditing] = useState(false)
@@ -21,14 +19,6 @@ const Post = (props) => {
       if (res.data.some((id) => id === props.user?.id)) setLiked(true)
     })
   }, [liked])
-
-  const options = {
-    replace: (domNode) => {
-      if (domNode.attribs && domNode.attribs.class === 'remove') {
-        return <></>
-      }
-    },
-  }
 
   useEffect(() => {
     axios
@@ -88,17 +78,19 @@ const Post = (props) => {
         })
     }
   }
+  console.log(props.post)
 
   return (
     <main className="post">
       <h1 className="title">{props.post.title}</h1>
       <h2 className="author">By: {props.post.user.username}</h2>
+      <p>{props.post.createdAt.slice(0, 10)}</p>
+      <img className="image" src={decode(props.post.imgUrl)} alt="post image" />
       <p
-        dangerouslySetInnerHTML={{ __html: parse(props.post.content, options) }}
+        dangerouslySetInnerHTML={{
+          __html: decode(decode(props.post.content)),
+        }}
       />
-      <p>Likes: {likes.length}</p>
-      <p>{props.post.createdAt}</p>
-      <p>{props.post._id}</p>
       <Link to={`/posts/${props.post._id}/edit`}>
         <button
           onClick={handleEdit}
@@ -116,17 +108,21 @@ const Post = (props) => {
         {liked ? 'Unlike' : 'Like'}
       </button>
       <div className="comments">
-        {comments.length &&
-          comments.map((comment) => (
-            <Comment
-              key={comment._id}
-              comment={comment}
-              user={props.user}
-              setComments={setComments}
-              setCommentEdit={setCommentEdit}
-              comments={comments}
-            />
-          ))}
+        {comments && (
+          <>
+            <h2>Comments</h2>
+            {comments.map((comment) => (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                user={props.user}
+                setComments={setComments}
+                setCommentEdit={setCommentEdit}
+                comments={comments}
+              />
+            ))}
+          </>
+        )}
         {!props.user && <p>Please log in to comment</p>}
         {props.user && (
           <CommentForm

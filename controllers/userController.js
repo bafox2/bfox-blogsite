@@ -53,7 +53,6 @@ exports.signup_post = [
     }),
 
   async (req, res, next) => {
-    ;() => console.log(req.body)
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
       return res.json({ errors: errors.array() })
@@ -64,7 +63,6 @@ exports.signup_post = [
         message: 'Username already exists',
       })
     }
-    console.log('making new user')
     User.create(
       {
         username: req.body.username,

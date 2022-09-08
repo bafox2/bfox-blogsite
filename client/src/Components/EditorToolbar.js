@@ -1,5 +1,3 @@
-import { Quill } from 'react-quill'
-
 export const modules = {
   toolbar: [
     [{ header: [1, 2, 3, false] }],

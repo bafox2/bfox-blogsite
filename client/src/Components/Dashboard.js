@@ -1,26 +1,6 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
 import PostPreview from './PostPreview'
 
 const Dashboard = (props) => {
-  const [showPublished, setShowPublished] = useState(false)
-  const [showUnpublished, setShowUnpublished] = useState(false)
-
-  useEffect(() => {
-    console.log('dashboard useeffect')
-    props.posts.filter(
-      (post) => post.user._id === props.user._id && post.published
-    ).length
-      ? setShowPublished(true)
-      : setShowPublished(false)
-
-    props.posts.filter(
-      (post) => post.user._id === props.user._id && !post.published
-    ).length
-      ? setShowUnpublished(true)
-      : setShowUnpublished(false)
-  }, [props.posts, props.user])
-
   return (
     <main className="main">
       <div className="dashboard">

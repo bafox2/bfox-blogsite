@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import styles from '../index.scss'
 import { useNavigate } from 'react-router-dom'
+import { mdiChairSchool } from '@mdi/js'
+import { Icon } from '@mdi/react'
 
 function Header(props) {
   const navigate = useNavigate()
@@ -11,7 +13,9 @@ function Header(props) {
   }
   return (
     <header>
-      <div>header, welcome {props.user ? props.user.username : 'friend'}</div>
+      <div>
+        <Icon path={mdiChairSchool} size={1.5} color="white" />
+      </div>
       <nav>
         <Link className="nav-item" to="/">
           Home
