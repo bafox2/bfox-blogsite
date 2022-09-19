@@ -81,71 +81,77 @@ const Post = (props) => {
   console.log(props.post)
 
   return (
-    <main className="post">
-      <h1 className="title">{props.post.title}</h1>
-      <h2 className="author">By: {props.post.user.username}</h2>
-      <p>{props.post.createdAt.slice(0, 10)}</p>
-      <img className="image" src={decode(props.post.imgUrl)} alt="post image" />
-      <p
-        className="content"
-        dangerouslySetInnerHTML={{
-          __html: decode(decode(props.post.content)),
-        }}
-      />
-      <Link to={`/posts/${props.post._id}/edit`}>
-        <button
-          onClick={handleEdit}
-          hidden={props.user?.id === props.post.user._id ? false : true}
-        >
-          Edit link
-        </button>
-      </Link>
+    <main>
+      <div className="post">
+        <h1 className="title">{props.post.title}</h1>
+        <h2 className="author">By: {props.post.user.username}</h2>
+        <p>{props.post.createdAt.slice(0, 10)}</p>
+        <img
+          className="image"
+          src={decode(props.post.imgUrl)}
+          alt="post image"
+        />
+        <p
+          className="content"
+          dangerouslySetInnerHTML={{
+            __html: decode(decode(props.post.content)),
+          }}
+        />
+        <Link to={`/posts/${props.post._id}/edit`}>
+          <button
+            onClick={handleEdit}
+            hidden={props.user?.id === props.post.user._id ? false : true}
+          >
+            Edit link
+          </button>
+        </Link>
 
-      <button
-        className="like"
-        onClick={handleLike}
-        hidden={props.user ? false : true}
-      >
-        {liked ? 'Unlike' : 'Like'}
-      </button>
-      <div className="comments">
-        {comments && (
-          <>
-            <hr></hr>
-            <h2>Comments</h2>
-            {comments.map((comment) => (
-              <Comment
-                key={comment._id}
-                comment={comment}
-                user={props.user}
-                setComments={setComments}
-                setCommentEdit={setCommentEdit}
-                comments={comments}
-              />
-            ))}
-          </>
-        )}
-        {!props.user && <p>Please log in to comment</p>}
-        {props.user && (
-          <CommentForm
+        <button
+          className="like"
+          onClick={handleLike}
+          hidden={props.user ? false : true}
+        >
+          {liked ? 'Unlike' : 'Like'}
+        </button>
+        <div className="comments">
+          {comments && (
+            <>
+              <hr></hr>
+              <h2>Comments</h2>
+              {comments.map((comment) => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  user={props.user}
+                  setComments={setComments}
+                  setCommentEdit={setCommentEdit}
+                  comments={comments}
+                />
+              ))}
+            </>
+          )}
+          {!props.user && <p>Please log in to comment</p>}
+          {props.user && (
+            <CommentForm
+              post={props.post}
+              setComments={setComments}
+              comments={comments}
+            />
+          )}
+        </div>
+        {editing && (
+          <PostFormCreate
             post={props.post}
-            setComments={setComments}
+            user={props.user}
+            setEditing={setEditing}
+            setPosts={props.setPosts}
+            id={props.post._id}
+            editing={editing}
             comments={comments}
+            hidden={props.user ? false : true}
           />
         )}
       </div>
-      {editing && (
-        <PostFormCreate
-          post={props.post}
-          user={props.user}
-          setEditing={setEditing}
-          setPosts={props.setPosts}
-          id={props.post._id}
-          editing={editing}
-          comments={comments}
-          hidden={props.user ? false : true}
-        />
-      )}
     </main>
   )
 }

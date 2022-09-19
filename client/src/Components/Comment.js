@@ -66,7 +66,7 @@ const Comment = (props) => {
 
   return (
     <div className="comment">
-      <h3 className="commentUser">{props.comment.user}</h3>
+      <h3 className="commentUser">User: {props.comment.user}</h3>
       {editing ? (
         <form onSubmit={editComment}>
           <input

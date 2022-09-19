@@ -74,8 +74,9 @@ const PostFormCreate = (props) => {
   console.log(formData)
   return (
     <main>
+      <h1>Learnsplain something!</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form">
+        <div className="form create">
           <div className="form__group">
             <input
               id="title"
@@ -117,7 +118,7 @@ const PostFormCreate = (props) => {
             formats={formats}
             className="quill-editor"
           />
-          <div className="buttons">
+          <div className="form__group checkbox">
             <label htmlFor="publish">Publish now?</label>
             <input
               id="publish"
@@ -127,6 +128,8 @@ const PostFormCreate = (props) => {
               onChange={handleChange}
               value={formData.published}
             />
+          </div>
+          <div className="buttons">
             <button type="submit" className="btn btn-primary">
               {'Submit'}
             </button>

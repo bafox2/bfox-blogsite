@@ -1,5 +1,5 @@
 .post {
-  max-width: 75%;
+  width: 90%;
   .title {
     font-weight: bold;
     margin: 0;
@@ -14,9 +14,9 @@
   }
 
   .comments {
-    width: stretch;
+    width: 100%;
     .comment {
-      border: 1px solid blue;
+      border-bottom: solid 1px grey;
     }
   }
   .image {
