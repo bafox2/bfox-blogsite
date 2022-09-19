@@ -12,6 +12,8 @@ main {
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1rem;
+  min-width: 100vw;
+  overflow: auto;
 }
 
 footer {

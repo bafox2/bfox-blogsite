@@ -88,7 +88,7 @@ const PostFormCreate = (props) => {
               placeholder=""
             />
             <label className="form__label" htmlFor="title">
-              Title
+              Title*
             </label>
           </div>
           <div className="form__group">
@@ -103,7 +103,7 @@ const PostFormCreate = (props) => {
               placeholder=""
             />
             <label className="form__label" htmlFor="imgUrl">
-              Image URL
+              Image URL*
             </label>
           </div>
 

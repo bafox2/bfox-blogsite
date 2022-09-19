@@ -12,7 +12,7 @@ const Landing = (props) => {
   return (
     <main>
       <h1>Posts</h1>
-      <p>
+      <p className="intro">
         This is a space for people who are learning how to code to share the
         things they learned about and think are cool. If you have something to
         add, you can post a comment. I made this site because when you are able

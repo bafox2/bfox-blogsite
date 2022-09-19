@@ -55,30 +55,30 @@ const PostPreview = (props) => {
 
   return (
     <div className="preview">
+      <img
+        className="imgPreview"
+        src={decode(props.post.imgUrl)}
+        alt="Image preview"
+      ></img>
       <Link className="previewCard" to={`/posts/${props.post._id}`}>
         <h2 className="title">{props.post.title}</h2>
         <h3 className="author"> {props.post.user.username}</h3>
         <p className="posted">{props.post.createdAt.slice(0, 10)}</p>
-        <p className="content">
+        {/* <p className="content">
           {props.post.content.slice(0, 140).replace(/<[^>]+>/gi, ' ')}
           ...
-        </p>
-        <img
-          className="imgPreview"
-          src={decode(props.post.imgUrl)}
-          alt="Image preview"
-        ></img>
+        </p> */}
       </Link>
       {props.publishAccess && (
         <div className="buttons">
           <button onClick={() => handlePublish(props.post)}>
             {props.post.published ? 'Unpublish' : 'Publish'}
           </button>
-
-          <Link className="nav-item" to={`/posts/${props.post._id}/edit`}>
-            <button>Edit link</button>
-          </Link>
-
+          <button>
+            <Link className="nav-item" to={`/posts/${props.post._id}/edit`}>
+              Edit link
+            </Link>
+          </button>
           <button
             onClick={deletePost}
             hidden={props.publishAccess ? false : true}
