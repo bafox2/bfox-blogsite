@@ -4,6 +4,7 @@ const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
 var helmet = require('helmet')
+const cors = require('cors')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var createError = require('http-errors')
@@ -29,12 +30,13 @@ var app = express()
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(express.static(path.resolve(__dirname, './client/build')))
 app.use(helmet())
-app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/comments', commentsRouter)
 app.use('/users', usersRouter)
@@ -44,8 +46,8 @@ app.get('/ping', function (req, res) {
   return res.send('pong')
 })
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, './client/public', 'index.html'))
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build/', 'index.html'))
 })
 
 // catch 404 and forward to error handler

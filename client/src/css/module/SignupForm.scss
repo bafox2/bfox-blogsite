@@ -1,0 +1,81 @@
+@import '../abstracts/variables.scss';
+
+.form {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 320px;
+  padding: 1rem;
+  border-radius: $border-radius-form;
+  background-color: $primary;
+  &__title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  &__description {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  &__group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  &__input {
+    width: 100%;
+    height: 100%;
+    border: 2px solid $secondary-light;
+    border-radius: $border-radius;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    padding: 0.5rem;
+    background: none;
+    &:hover {
+      border: 2px solid $secondary;
+    }
+    &:focus {
+      border: 2px solid $secondary-dark;
+    }
+  }
+  &__label {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    padding: 0 0.5rem;
+    background-color: $primary;
+    transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+  }
+  &__warning {
+    max-width: calc(100% - 50px);
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
+    color: $error;
+    margin-top: 0.5rem;
+  }
+}
+
+.form__input:focus ~ .form__label,
+.form__input:not(:placeholder-shown).form__input:not(:focus) ~ .form__label {
+  top: -10px;
+  left: 20px;
+  font-size: small;
+  border-radius: $border-radius;
+}
+
+//just buttons in a form
+button {
+  align-self: center;
+  width: 150px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: $border-radius;
+  background-color: $secondary-dark;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+}

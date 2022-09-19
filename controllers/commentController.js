@@ -18,18 +18,19 @@ exports.comment_create = [
   (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
+      console.log(errors.array(), 'errrors')
       return res.json({ errors: errors.array() })
     }
-    console.log(req.query, 'req.params')
+
     Comment.create(
       {
         comment: req.body.comment,
         user: req.body.user,
-        post: req.params.post_id || req.query.post_id,
+        post: req.params.id,
       },
-      (err, comment) => {
+      (err, newComment) => {
         if (err) return res.json(err)
-        res.json(comment)
+        res.json(newComment)
       }
     )
   },
@@ -45,8 +46,36 @@ exports.comment_delete = function (req, res) {
 }
 
 exports.comment_get = function (req, res) {
-  Comment.findById(req.params.id, (err, comment) => {
+  Comment.find({ post: req.params.id }).exec((err, comments) => {
     if (err) return res.json(err)
-    return res.json(comment)
+    return res.json(comments)
   })
 }
+
+exports.comment_edit = [
+  (req, res, next) => {
+    jwt.verify(req.token, process.env.PASSPORT_KEY, (err, authData) => {
+      if (err) res.sendStatus(402).json(err)
+      req.authData = authData
+      next()
+    })
+  },
+  body('comment', 'Comment is required').trim().isLength({ min: 2 }).escape(),
+  (req, res, next) => {
+    console.log(req.body, 'req.body')
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.json({ errors: errors.array() })
+    }
+    const update = {
+      comment: req.body.comment,
+    }
+    Comment.findByIdAndUpdate(req.params.id, update, (err, comment) => {
+      if (err) {
+        return res.json(err)
+      } else {
+        res.json(comment)
+      }
+    })
+  },
+]

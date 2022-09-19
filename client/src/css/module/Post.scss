@@ -1,0 +1,31 @@
+.post {
+  width: 90%;
+  .title {
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+  }
+  .author {
+    margin: 0;
+    padding: 0;
+  }
+  .content {
+    width: stretch;
+  }
+
+  .comments {
+    width: 100%;
+    .comment {
+      border-bottom: solid 1px grey;
+    }
+  }
+  .image {
+    max-width: 85%;
+  }
+}
+
+@media (max-width: 768px) {
+  .image {
+    max-width: 280px;
+  }
+}

@@ -1,0 +1,30 @@
+// forms, titles, buttons
+@import '../abstracts/variables.scss';
+
+* {
+  box-sizing: border-box;
+  font-family: $font;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  min-width: 100vw;
+  overflow: auto;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: $primary-light;
+  color: $secondary-dark;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-top: 1px solid $secondary-light;
+}

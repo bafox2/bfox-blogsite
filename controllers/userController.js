@@ -15,7 +15,7 @@ exports.login_post = (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user) => {
     if (err || !user) {
       return res.status(401).json({
-        message: 'Something is wrong, we could not verify your credentials.',
+        message: 'incorrect username or password',
         user,
       })
     }
@@ -47,24 +47,29 @@ exports.signup_post = [
     .escape()
     .custom(async (value, { req }) => {
       if (value !== req.body.password) {
+        console.log('did not match')
         throw new Error('Passwords do not match')
       }
       return true
     }),
 
   async (req, res, next) => {
-    ;() => console.log(req.body)
-    const errors = validationResult(req)
+    const errors = validationResult(req.body)
+    console.log(errors)
     if (!errors.isEmpty()) {
       return res.json({ errors: errors.array() })
     }
-    const userExistsCheck = User.findOne({ username: req.body.username })
-    if (userExistsCheck.length > 0) {
-      return res.json({
-        message: 'Username already exists',
+    let check = await User.exists({ username: req.body.username })
+    if (check) {
+      return res.status(409).json({
+        message: 'Username already taken',
       })
     }
-    console.log('making new user')
+    if (req.body.password !== req.body.confirmPassword) {
+      return res.status(401).json({
+        message: 'Please make sure your passwords match',
+      })
+    }
     User.create(
       {
         username: req.body.username,
