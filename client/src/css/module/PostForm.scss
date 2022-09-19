@@ -1,0 +1,15 @@
+@import '../abstracts/variables.scss';
+
+.quill {
+  width: 860px;
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .quill {
+    width: 100%;
+  }
+  .ql-toolbar.ql-snow .ql-formats {
+    margin-right: 2px;
+  }
+}
