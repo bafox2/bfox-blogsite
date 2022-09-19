@@ -69,25 +69,23 @@ const PostPreview = (props) => {
           alt="Image preview"
         ></img>
       </Link>
-      <button
-        onClick={() => handlePublish(props.post)}
-        hidden={props.publishAccess ? false : true}
-      >
-        {props.post.published ? 'Unpublish' : 'Publish'}
-      </button>
+      {props.publishAccess && (
+        <div className="buttons">
+          <button onClick={() => handlePublish(props.post)}>
+            {props.post.published ? 'Unpublish' : 'Publish'}
+          </button>
 
-      {props.publishAccess && (
-        <Link className="nav-item" to={`/posts/${props.post._id}/edit`}>
-          <button>Edit link</button>
-        </Link>
-      )}
-      {props.publishAccess && (
-        <button
-          onClick={deletePost}
-          hidden={props.publishAccess ? false : true}
-        >
-          Delete
-        </button>
+          <Link className="nav-item" to={`/posts/${props.post._id}/edit`}>
+            <button>Edit link</button>
+          </Link>
+
+          <button
+            onClick={deletePost}
+            hidden={props.publishAccess ? false : true}
+          >
+            Delete
+          </button>
+        </div>
       )}
     </div>
   )

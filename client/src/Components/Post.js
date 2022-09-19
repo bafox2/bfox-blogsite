@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Comment from './Comment'
 import CommentForm from './CommentForm'
-import PostForm from './PostForm'
+import PostFormCreate from './PostFormCreate'
 import { Link } from 'react-router-dom'
 import { decode } from 'html-entities'
 
@@ -135,7 +135,7 @@ const Post = (props) => {
         )}
       </div>
       {editing && (
-        <PostForm
+        <PostFormCreate
           post={props.post}
           user={props.user}
           setEditing={setEditing}

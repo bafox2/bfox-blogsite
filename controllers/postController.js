@@ -5,6 +5,7 @@ const createDOMPurify = require('dompurify')
 const { JSDOM } = require('jsdom')
 
 exports.post_list = (req, res, next) => {
+  console.log('post list route')
   Post.find()
     .populate('user likes comments')
     .exec((err, posts) => {
@@ -66,6 +67,7 @@ exports.post_create = [
       return res.json({ errors: errors.array() })
     }
     const { title, content, imgUrl, published } = req.body
+    console.log(published)
     Post.create(
       {
         title,
@@ -220,6 +222,7 @@ exports.post_unpublish = (req, res, next) => {
 }
 
 exports.post_get = (req, res, next) => {
+  console.log('getting post', req.params)
   Post.findById(req.params.id)
     .populate('user likes comments')
     .exec((err, post) => {

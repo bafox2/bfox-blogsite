@@ -16,7 +16,7 @@ const Landing = (props) => {
         This is a space for people who are learning how to code to share the
         things they learned about and think are cool. If you have something to
         add, you can post a comment. I made this site because when you are able
-        to teach something, you probably learned it well.
+        to teach something, you probably learned it well. Thanks!
       </p>
       <div className="preview-container">
         {published.map((post) => (

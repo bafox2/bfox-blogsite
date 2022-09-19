@@ -51,23 +51,15 @@ const PostFormCreate = (props) => {
     }
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }))
-    console.log(e.target)
-  }
-
-  const clearForm = (e) => {
-    e.preventDefault()
-    setFormData((prevState) => ({
-      ...prevState,
-      title: '',
-      content: '',
-      imgUrl: '',
-    }))
+  const handleChange = (event) => {
+    console.log(event.target)
+    const { name, value, type, checked } = event.target
+    setFormData((prevState) => {
+      return {
+        ...prevState,
+        [name]: type === 'checkbox' ? checked : value,
+      }
+    })
   }
 
   const handleQuillEdit = (value) => {
@@ -79,45 +71,67 @@ const PostFormCreate = (props) => {
     })
   }
 
+  console.log(formData)
   return (
     <main>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="content">Content</label>
-        <ReactQuill
-          theme="snow"
-          // value={formData.content}
-          defaultValue={decode(formData.content)}
-          onChange={handleQuillEdit}
-          modules={modules}
-          formats={formats}
-        />
-        {/* title section */}
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          className="form-control"
-          onChange={(e) => handleChange(e)}
-          value={formData.title}
-          required={true}
-        />
-        {/* imgUrl section */}
-        <label htmlFor="imgUrl">Image URL</label>
-        <input
-          type="text"
-          name="imgUrl"
-          className="form-control"
-          onChange={handleChange}
-          value={formData.imgUrl}
-          required={true}
-        />
+        <div className="form">
+          <div className="form__group">
+            <input
+              id="title"
+              type="text"
+              name="title"
+              className="form__input"
+              onChange={(e) => handleChange(e)}
+              value={formData.title}
+              required={true}
+              placeholder=""
+            />
+            <label className="form__label" htmlFor="title">
+              Title
+            </label>
+          </div>
+          <div className="form__group">
+            <input
+              id="imgUrl"
+              type="text"
+              name="imgUrl"
+              className="form__input"
+              onChange={handleChange}
+              value={formData.imgUrl}
+              required={true}
+              placeholder=""
+            />
+            <label className="form__label" htmlFor="imgUrl">
+              Image URL
+            </label>
+          </div>
 
-        <button type="submit" className="btn btn-primary">
-          {'Submit'}
-        </button>
-        <button type="button" className="btn btn-danger" onClick={clearForm}>
-          Clear
-        </button>
+          <label htmlFor="content">Content</label>
+          <ReactQuill
+            theme="snow"
+            // value={formData.content}
+            defaultValue={decode(formData.content)}
+            onChange={handleQuillEdit}
+            modules={modules}
+            formats={formats}
+            className="quill-editor"
+          />
+          <div className="buttons">
+            <label htmlFor="publish">Publish now?</label>
+            <input
+              id="publish"
+              type="checkbox"
+              name="published"
+              checked={formData.published}
+              onChange={handleChange}
+              value={formData.published}
+            />
+            <button type="submit" className="btn btn-primary">
+              {'Submit'}
+            </button>
+          </div>
+        </div>
       </form>
     </main>
   )

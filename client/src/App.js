@@ -24,7 +24,7 @@ function App() {
     })
   }, [])
   return (
-    <div className="App">
+    <>
       <Loader loading={loading} />
       <div hidden={loading ? true : false} className="container">
         <Header className="header" user={user} setUser={setUser} />
@@ -88,7 +88,7 @@ function App() {
         </Routes>
         <Footer />
       </div>
-    </div>
+    </>
   )
 }
 

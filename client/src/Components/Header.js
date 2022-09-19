@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import styles from '../index.scss'
 import { useNavigate } from 'react-router-dom'
 import { mdiChairSchool } from '@mdi/js'
 import { Icon } from '@mdi/react'
@@ -14,8 +13,10 @@ function Header(props) {
   return (
     <header>
       <div className="logo">
-        <p className="tag">learnsplain</p>
-        <Icon path={mdiChairSchool} size={1.5} color="white" />
+        <Link to="/">
+          <p className="tag">learnsplain</p>
+          <Icon path={mdiChairSchool} size={1.5} />
+        </Link>
       </div>
       <nav>
         <Link className="nav-item" to="/">

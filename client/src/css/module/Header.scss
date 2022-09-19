@@ -14,7 +14,7 @@ header {
   font-weight: bold;
   border-bottom: 1px solid $secondary-light;
   a {
-    color: $secondary-light;
+    color: $secondary-dark;
     text-decoration: none;
   }
   nav {
@@ -30,12 +30,15 @@ header {
     position: relative;
     top: 8px;
   }
+  .svg {
+    color: $secondary-dark;
+  }
   p {
     font-size: small;
     position: absolute;
     margin: -13px -12px;
     padding: 0;
-    color: whitesmoke;
+    color: $secondary-dark;
   }
 }
 

@@ -15,7 +15,7 @@ exports.login_post = (req, res, next) => {
   passport.authenticate('local', { session: false }, (err, user) => {
     if (err || !user) {
       return res.status(401).json({
-        message: 'Something is wrong, we could not verify your credentials.',
+        message: 'incorrect username or password',
         user,
       })
     }
