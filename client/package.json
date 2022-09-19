@@ -47,7 +47,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://bfoxblogwebsite.herokuapp.com/",
+  "proxy": "http://localhost:5000/",
   "homepage": ".",
   "devDependencies": {
     "axios": "^0.27.2",
