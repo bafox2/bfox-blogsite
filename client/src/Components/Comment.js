@@ -61,7 +61,7 @@ const Comment = (props) => {
   }
   const handleEdit = () => {
     props.setCommentEdit(true)
-    setEditing(true)
+    setEditing((prev) => !prev)
   }
 
   return (
@@ -74,7 +74,7 @@ const Comment = (props) => {
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
-          <button type="submit">Edit</button>
+          <button type="submit">Submit</button>
         </form>
       ) : (
         //this is where a useeffect is needed to update after an edit

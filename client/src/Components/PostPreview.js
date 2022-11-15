@@ -27,6 +27,13 @@ const PostPreview = (props) => {
           })
         )
       })
+      .then(() => {
+        props.setPosts((prevState) =>
+          prevState.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date)
+          })
+        )
+      })
       .catch((err) => {
         console.error(err)
       })
@@ -44,6 +51,13 @@ const PostPreview = (props) => {
       .then((res) => {
         props.setPosts((prevState) =>
           prevState.filter((post) => post._id !== props.post._id)
+        )
+      })
+      .then(() => {
+        props.setPosts((prevState) =>
+          prevState.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date)
+          })
         )
       })
       .catch((err) => {
